@@ -1,0 +1,23 @@
+- hosts: localhost
+  vars:
+    tenant_id: "{{ tenant_id }}"
+    media_path: "{{ media_path }}"
+    random_port_merch: "{{ random_port_merch }}"
+    random_port_tracker: "{{ random_port_tracker }}"
+  tasks:
+    - name: Run local shell script For Merch for build and  send
+      script: /var/www/ansible/project/merch_project.sh "{{ tenant_id }}" "{{ media_path }}" "{{ random_port_merch }}"
+    - name: Run local shell script For Tracker for build and send 
+      script: /var/www/ansible/project/tracker_project.sh "{{ tenant_id }}"  "{{ random_port_tracker }}"
+
+    - name: Copy file to remote host For Merch after build
+      copy:
+        src: "/var/www/ansible/project/Clone_Dir_Merch_{{ tenant_id }}/Merchandising.API/bin/Release/net6.0/publish/"
+        dest: "/var/www/Merchandising_API_{{ tenant_id }}/"
+      delegate_to: server1
+    - name: Copy file to remote host For Tracker after build 
+      copy:
+        src: "/var/www/ansible/project/Clone_Dir_Tracker_{{ tenant_id }}/TrackerMakerApi/bin/Release/net6.0/publish/"
+        dest: "/var/www/Tracker_Maker_Api_{{ tenant_id }}/"
+      delegate_to: server1
+

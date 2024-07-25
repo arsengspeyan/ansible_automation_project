@@ -1,0 +1,23 @@
+- hosts: server1
+  become: yes
+  vars:
+    tenant_id: "{{ tenant_id }}"
+
+  tasks:
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
+        enabled: yes
+
+    - name: Restart Merch Service
+      service:
+        name: "Merchandising.API_{{ tenant_id }}.service"
+        state: restarted
+        enabled: yes
+
+    - name: Restart Tracker Service
+      service:
+        name: "Merch.Tracker.Maker.Api_{{ tenant_id }}.service"
+        state: restarted
+        enabled: yes

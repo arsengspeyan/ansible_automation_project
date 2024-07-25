@@ -1,0 +1,38 @@
+- hosts: localhost
+  become: true
+  tasks:
+    - name: Allow SSH (port 22) in UFW
+      ufw:
+        rule: allow
+        port: 22
+        proto: tcp
+      delegate_to: localhost
+
+    - name: Allow HTTP (port 80) in UFW
+      ufw:
+        rule: allow
+        port: 80
+        proto: tcp
+      delegate_to: localhost    
+
+    - name: Allow HTTPS (port 443) in UFW
+      ufw:
+        rule: allow
+        port: 443
+        proto: tcp
+      delegate_to: localhost    
+
+    - name: Enable UFW
+      ufw:
+        state: enabled
+      delegate_to: localhost
+
+    - name: Check UFW status
+      command: ufw status
+      register: ufw_status
+      delegate_to: localhost
+
+    - name: Display UFW status
+      debug:
+        msg: "{{ ufw_status.stdout }}"
+      delegate_to: localhost

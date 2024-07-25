@@ -1,0 +1,27 @@
+- hosts: localhost
+  vars:
+    tenant_id: "{{ tenant_id }}"
+    random_port_merch: "{{ random_port_merch }}"
+    random_port_tracker: "{{ random_port_tracker }}"
+  tasks:
+    - name: Run Merch and Tracker Script for nginx
+      script: /var/www/ansible/nginx/create_nginx_conf.sh  "{{ tenant_id }}" "{{ random_port_merch }}" "{{ random_port_tracker }}"
+
+    - name: Copy file to remote host for Merch for nginx
+      copy:
+        src: "/var/www/ansible/nginx/Merchandising.API.Prod_{{ tenant_id }}.conf"
+        dest: "/etc/nginx/conf.d/Merchandising.API.Prod_{{ tenant_id }}.conf"
+      delegate_to: server1
+
+    - name: Copy file to remote host Tracker for nginx
+      copy:
+        src: "/var/www/ansible/nginx/Merch.Tracker.Maker.Api.Prod_{{ tenant_id }}.conf"
+        dest: "/etc/nginx/conf.d/Merch.Tracker.Maker.Api.Prod_{{ tenant_id }}.conf"
+      delegate_to: server1
+
+    - name: Copy directory to remote host for nginx 
+      copy:
+        src: /var/www/ansible/nginx/certs_client
+        dest: /etc/nginx/conf.d/
+      delegate_to: server1
+

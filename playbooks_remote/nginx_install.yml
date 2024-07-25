@@ -1,0 +1,27 @@
+---
+- hosts: server1
+  become: true
+  tasks:
+    - name: Update apt package cache
+      apt:
+        update_cache: yes
+
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: latest
+
+    - name: Start nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+   
+    - name: Check nginx service status
+      command: systemctl is-active nginx
+      register: nginx_status
+      ignore_errors: yes
+
+    - name: Display nginx service status
+      debug:
+        msg: "Nginx service is {{ nginx_status.stdout }}"

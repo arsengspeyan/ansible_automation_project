@@ -1,0 +1,20 @@
+- hosts: localhost
+  vars:
+    tenant_id: "{{ tenant_id }}"
+    random_port_merch: "{{ random_port_merch }}"
+    random_port_tracker: "{{ random_port_tracker }}"
+  tasks:
+    - name: Run Merch and Tracker Script
+      script: /var/www/ansible/service/Merch.Tracker.Maker.Apiservice.sh "{{ tenant_id }}" "{{ random_port_merch }}" "{{ random_port_tracker }}"
+
+    - name: Copy file to remote host for Merch
+      copy:
+        src: /var/www/ansible/service/Merchandising.API_{{ tenant_id }}.service
+        dest: "/etc/systemd/system/Merchandising.API_{{ tenant_id }}.service"
+      delegate_to: server1
+
+    - name: Copy file to remote host Tracker
+      copy:
+        src: /var/www/ansible/service/TrackerMakerApi_{{tenant_id}}.service
+        dest: "/etc/systemd/system/Merch.Tracker.Maker.Api_{{ tenant_id }}.service"
+      delegate_to: server1

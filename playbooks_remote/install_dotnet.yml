@@ -1,0 +1,20 @@
+- hosts: server1
+  become: true
+  tasks:
+    - name: Update apt package cache
+      apt:
+        update_cache: yes
+
+    - name: Install dotnet-sdk-6.0
+      apt:
+        name: dotnet-sdk-6.0
+        state: present
+
+
+    - name: List installed .NET SDK versions
+      shell: dotnet --list-sdks
+      register: dotnet_sdk_list
+
+    - debug:
+        var: dotnet_sdk_list.stdout_lines
+
