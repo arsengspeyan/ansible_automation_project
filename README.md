@@ -7,7 +7,7 @@
 To get started with the project, follow these steps:
 
 1.Clone the repository:
-git clone https://innline@dev.azure.com/innline/DevOps/_git/automation_project_Merchandising
+git clone https://<repository>
 
 2.Update and install Python 3:
 
