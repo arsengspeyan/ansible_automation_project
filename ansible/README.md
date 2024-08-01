@@ -15,7 +15,7 @@ The shell script is responsible for:
 - Notify an API endpoint about the completion of a Bash script, providing the tenantId as a parameter.
 
 
-#The realtest.sh script located at /var/www/ansible/prod_remote/realtest.sh is the main script responsible for running all jobs and automation tasks in your project.
+#The realtest.sh script located at realtest.sh is the main script responsible for running all jobs and automation tasks in your project.
 
 
 
